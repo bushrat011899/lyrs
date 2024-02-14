@@ -1,0 +1,13 @@
+[package]
+name = "fundsp_test"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.79"
+cpal = "0.15.2"
+fundsp = "0.16.0"
+funutd = "0.14.0"
+winit = "0.29.10"
