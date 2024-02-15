@@ -229,7 +229,7 @@ fn main() -> Result<(), anyhow::Error> {
 
         if data < 500 && !plucking {
             println!("Plucked!");
-            lyre.pluck(72);
+            lyre.pluck(72.0);
             plucking = true;
         } else {
             plucking = false;
