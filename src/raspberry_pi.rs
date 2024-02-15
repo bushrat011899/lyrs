@@ -3,7 +3,7 @@ use std::time::Duration;
 
 use rppal::gpio::Gpio;
 use rppal::spi::{Bus, Mode, SlaveSelect, Spi};
-use embedded_hal::spi::{SpiBus, Operation, SpiDevice};
+use embedded_hal::spi::{Operation, SpiDevice};
 use embedded_hal_bus::spi::RefCellDevice;
 
 /// MCP3008 driver
@@ -100,12 +100,10 @@ fn main() -> Result<(), anyhow::Error> {
     let mut mcp = Mcp3008::new(mcp);
 
     loop {
-        let data = mcp.read(Channel::CH7)?;
+        let data = mcp.read(Channel::CH7).unwrap();
 
         println!("Channel 7: {data}");
 
-        std::thread::sleep(Duration::from_milis(500));
+        std::thread::sleep(Duration::from_millis(500));
     }
-
-    Ok(())
 }
