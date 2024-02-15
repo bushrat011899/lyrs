@@ -11,6 +11,9 @@ use winit::{
     window::WindowBuilder,
 };
 
+#[cfg(feature = "raspberry_pi")]
+mod raspberry_pi;
+
 pub struct Lyre {
     sequencer: Sequencer64,
     rnd: Rnd,
@@ -53,7 +56,9 @@ impl Lyre {
     }
 
     pub fn pluck(&mut self, midi: f64) {
-        let waveform = Net64::wrap(Box::new(zero() >> pluck(midi_hz(midi), 0.2, 0.2) * 0.5));
+        let waveform = Net64::wrap(Box::new(
+            (brown() * lfo(|t| exp(-10. * t))) >> pluck(midi_hz(midi), 0.2, 0.2) * 0.5,
+        ));
 
         let mut note = Box::new(waveform);
 
@@ -157,7 +162,11 @@ fn main() {
                         },
                     ..
                 } => {
-                    let key = logical_key.to_text().and_then(|text| text.chars().next()).and_then(|char| char.to_digit(10)).map(|number| 72. + number as f64);
+                    let key = logical_key
+                        .to_text()
+                        .and_then(|text| text.chars().next())
+                        .and_then(|char| char.to_digit(10))
+                        .map(|number| 72. + number as f64);
 
                     if let Some(key) = key {
                         lyre.pluck(key);

@@ -1,9 +1,11 @@
 [package]
-name = "fundsp_test"
+name = "lyrs"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[features]
+default = []
+raspberry_pi = ["dep:rppal", "dep:embedded-hal", "dep:embedded-hal-bus"]
 
 [dependencies]
 anyhow = "1.0.79"
@@ -11,3 +13,16 @@ cpal = "0.15.2"
 fundsp = "0.16.0"
 funutd = "0.14.0"
 winit = "0.29.10"
+
+[dependencies.rppal]
+optional = true
+version = "0.17.1"
+features = ["hal"]
+
+[dependencies.embedded-hal ]
+optional = true
+version = "1"
+
+[dependencies.embedded-hal-bus ]
+optional = true
+version = "0.1.0"
