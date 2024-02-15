@@ -27,9 +27,6 @@ impl<SPI: SpiDevice> Mcp3008<SPI> {
     /// If `single_ended` is `true`, the conversion will be completed in single-ended mode.
     /// If `false`, the conversion will instead use differential mode.
     pub fn read_with_mode(&mut self, ch: Channel, single_ended: bool) -> Result<u16, SPI::Error> {
-        // Message to send to initiate serial communication
-        const START: &[u8] = &[0b0000_0001];
-
         // Message to send to select which channel to read and in what mode
         let message = {
             let mut message = 0;
@@ -50,25 +47,20 @@ impl<SPI: SpiDevice> Mcp3008<SPI> {
             message
         };
 
-        // Buffer to store resulting 10-bit value as two bytes
-        let mut buffer = [0; 2];
+        let mut buffer = [0; 3];
 
-        let (high, low) = buffer.split_at_mut(1);
+        buffer[0] = 1;
+        buffer[1] = 0b1111_0000;
 
         self.spi.transaction(&mut [
-            // Send start request
-            Operation::Write(START),
-            // Send request and read B9, B8
-            Operation::Transfer(high, &[message]),
-            // Read B7 - B0
-            Operation::Read(low),
+            Operation::TransferInPlace(&mut buffer)
         ])?;
 
         // Discard null bit and other undefined bits
-        buffer[0] &= 0b0000_0011;
+        buffer[1] &= 0b0000_0011;
 
         // Combine high and low bytes into a single u16
-        let result = ((buffer[0] as u16) << 8) | (buffer[1] as u16);
+        let result = ((buffer[1] as u16) << 8) | (buffer[2] as u16);
 
         Ok(result)
     }
