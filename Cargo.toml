@@ -4,8 +4,12 @@ version = "0.1.0"
 edition = "2021"
 
 [features]
-default = []
+default = ["raspberry_pi"]
 raspberry_pi = ["dep:rppal", "dep:embedded-hal", "dep:embedded-hal-bus"]
+
+[[bin]]
+name = "pi"
+path = "src/raspberry_pi.rs"
 
 [dependencies]
 anyhow = "1.0.79"
