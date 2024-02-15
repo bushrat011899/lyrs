@@ -227,11 +227,13 @@ fn main() -> Result<(), anyhow::Error> {
     loop {
         let data = mcp.read(Channel::CH7).unwrap();
 
-        if data < 500 && !plucking {
+        if data < 400 && !plucking {
             println!("Plucked!");
             lyre.pluck(72.0);
             plucking = true;
-        } else {
+        }
+
+        if data > 900 && plucking {
             plucking = false;
         }
 
