@@ -2,7 +2,7 @@ use std::cell::RefCell;
 use std::time::Duration;
 
 use rppal::gpio::Gpio;
-use rppal::spi::{Bus, Mode, Segment, SlaveSelect, Spi};
+use rppal::spi::{Bus, Mode, SlaveSelect, Spi};
 use embedded_hal::spi::{SpiBus, Operation, SpiDevice};
 use embedded_hal_bus::spi::RefCellDevice;
 
@@ -97,7 +97,7 @@ fn main() -> Result<(), anyhow::Error> {
 
     let mcp = RefCellDevice::new_no_delay(&spi, gpio.get(24)?.into_output());
 
-    let mut mcp = Mcp3008::new(spi);
+    let mut mcp = Mcp3008::new(mcp);
 
     loop {
         let data = mcp.read(Channel::CH7)?;
