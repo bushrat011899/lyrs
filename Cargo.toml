@@ -2,11 +2,12 @@
 name = "lyrs"
 version = "0.1.0"
 edition = "2021"
+authors = ["Zac Harrold <zac@harrold.com.au>"]
+license = "MIT / Apache-2.0"
 
 [features]
-default = ["raspberry_pi"]
-raspberry_pi = ["dep:rppal", "dep:embedded-hal", "dep:embedded-hal-bus"]
-
+default = []
+raspberry_pi = ["dep:rppal", "dep:embedded-hal", "dep:embedded-hal-bus", "dep:mcp300"]
 
 [[bin]]
 name = "main"
@@ -14,7 +15,12 @@ path = "src/main.rs"
 
 [[bin]]
 name = "pi"
-path = "src/raspberry_pi.rs"
+path = "src/pi.rs"
+
+[workspace]
+members = [
+  "crates/*",
+]
 
 [dependencies]
 anyhow = "1.0.79"
@@ -22,6 +28,13 @@ cpal = "0.15.2"
 fundsp = "0.16.0"
 funutd = "0.14.0"
 winit = "0.29.10"
+
+[dependencies.lyre ]
+path = "crates/lyre"
+
+[dependencies.mcp300 ]
+optional = true
+path = "crates/mcp300"
 
 [dependencies.rppal]
 optional = true

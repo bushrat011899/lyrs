@@ -1,0 +1,12 @@
+[package]
+name = "mcp300"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+default = ["mcp3008", "mcp3004"]
+mcp3008 = []
+mcp3004 = []
+
+[dependencies]
+embedded-hal = "1"

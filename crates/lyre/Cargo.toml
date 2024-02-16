@@ -1,0 +1,10 @@
+[package]
+name = "lyre"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.79"
+cpal = "0.15.2"
+fundsp = "0.16.0"
+funutd = "0.14.0"
